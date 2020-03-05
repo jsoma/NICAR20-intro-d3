@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 and SVG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style>
+      svg { 
+        background: #f9f9f9;
+        display: block;
+        margin: 0 auto;
+      }
+
+      h1 { margin-bottom: 2rem; }
+
+      body {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      h3 { 
+        margin-top: 3rem; 
+        margin-bottom: 1rem;
+      }
+
+      .container {
+        max-width: 46rem;
+      }
+
+      img.block {
+        display: block;
+        border: solid #333 1p;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+</head>
+<body>
+<div class="container">
+  <h1>SVG, meet D3</h1>
+  <p>We're going to use D3 to control our SVG.</p>
+
+  <svg height="500" width="800">
+    <rect x="0" y="90" width="20" height="20"></rect>
+    <rect x="0" y="190" width="575" height="20" ></rect>
+    <rect x="0" y="290" width="375" height="20"></rect>
+    <rect x="0" y="390" width="400" height="20" ></rect>
+    <circle cx="700" cy="100" r="20"></circle>
+    <circle cx="700" cy="200" r="20"></circle>
+    <circle cx="700" cy="300" r="20"></circle>
+    <circle cx="700" cy="400" r="20"></circle>
+  </svg>
+
+  <!-- This is D3, our graphing library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
+  <!-- Now we include our actual visualization -->
+  <script src="03-svg-and-d3.js"></script>
+</div>
+</body>
+</html>

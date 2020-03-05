@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Scatterplots: D3 and external data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="d3-tip.css">
+    <style>
+      svg { 
+        background: #f9f9f9;
+        display: block;
+        margin: 0 auto;
+      }
+
+      h1 { margin-bottom: 2rem; }
+
+      body {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      h3 { 
+        margin-top: 3rem; 
+        margin-bottom: 1rem;
+      }
+
+      .container {
+        max-width: 46rem;
+      }
+
+      img.block {
+        display: block;
+        border: solid #333 1p;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+</head>
+<body>
+<div class="container">
+  <h1>D3 and external data</h1>
+
+  <p>You'll need to run a <strong>local web server</strong> to make this one work. Open up the command line and whichever command is right for your machine:</p>
+  <ul>
+    <li><strong>Python 3:</strong><code>python -m http.server</code></li>
+    <li><strong>Python 2:</strong><code>python -m SimpleHTTPServer</code></li>
+  </ul>
+  <p>Then visit <a href="http://localhost:8000/">http://localhost:8000/</a> to see your visualization. If you get an an "address already in use" error you already have a server running.</p>
+  
+  <p>Our data is <strong>countries.csv</strong></p>
+
+  <p>We have a <code>div</code> with the <code>id</code> of <code>chart</code>. No SVG anywhere!</p>
+
+  <div id="chart"></div>
+  
+  <p>If we want tooltips, we're stealing code from <a href="http://bl.ocks.org/Caged/6476579">here</a></p>
+
+  <!-- This is D3, our graphing library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
+  <!-- Now we include our actual visualization -->
+  <script src="d3-tip.js"></script>
+  <script src="04-external-data.js"></script>
+</div>
+</body>
+</html>

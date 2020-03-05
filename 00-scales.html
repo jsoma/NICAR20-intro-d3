@@ -1,0 +1,128 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Scales</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style>
+      svg { 
+        background: #f9f9f9;
+        display: block;
+        margin: 0 auto;
+      }
+
+      h1 { margin-bottom: 2rem; }
+
+      body {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      h3 { 
+        margin-top: 3rem; 
+        margin-bottom: 1rem;
+      }
+
+      .container {
+        max-width: 46rem;
+      }
+
+      img.block {
+        display: block;
+        border: solid #333 1p;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+</head>
+<body>
+<div class="container">
+  <h1>D3 Scales</h1>
+  <p>This is a special page - it doesn't just have notes on it, it also has a bunch of variables! We'll be using it to code in the <strong>JavaScript console</strong>, which is a way of interactively... interacting with the page.</p>
+
+  <h3>Variables on this page</h3>
+  <ul>
+    <li><code>cities</code>: a list of cities, each with a <code>name</code> and <code>population</code></li>
+    <li><code>height</code>: the full height of our svg</li>
+    <li><code>width</code>: the full width of our svg</li>
+    <li><code>names</code>: each city's name, extracted into a separate array</li>
+    <li><code>populations</code>: each city's population, extracted into a separate array</li>
+    <li><code>minPop</code>: the largest population</li>
+    <li><code>maxPop</code>: the smallest population</li>
+  </ul>
+
+  <p>You can access these variables through the <strong>Javascript console</strong>.</p>
+
+  <h3>Using the Javascript console</h3>
+
+  <p>Open up your <strong>Javascript console</strong> by:</p>
+  <ul>
+    <li><strong>Cmd+Alt+I</strong>, or</li>
+    <li><strong>View > Developer > JavaScript Console</strong>, or</li>
+    <li><strong>Right click > Inspect > Console</strong></li>
+  </ul>
+
+  <p>You'll see an area that sometimes gives warnings and info, and at the bottom you'll see a <code>&gt;</code> symbol. Type some Javascript next to this, hit enter, and the browser will run the code for you using the current page.</p>
+
+  <p>You can also reposition the dock by clicking the <code>...</code> and then selecting a direction for it to attach to your browser.</p>
+
+  <img class="block" src="dock.png">
+
+  <h3>Scale template</h3>
+
+  <p>Every time you make a scale you will probably do something like this:</p>
+
+  <pre><code>scale = d3.scaleLinear().domain([inputMin, inputMax]).range([outputMin, outputMax])</code></pre>
+
+  <p>To use the scale, you'll just feed it some data.</p>
+
+  <pre><code>scale(12)</code></pre>
+
+  <p>What kind of scales are there? <a target="_blank" href="http://jonathansoma.com/lede/foundations-2018/d3/scales/">Check here</a> for a few.</p>
+
+  <h3>Scale questions</h3>
+
+  <p>For each scale, you need to determine the <strong>domain</strong> (inputs) and <strong>range</strong> (outputs).</p>
+
+  <ul>
+    <li><strong>Evenly space out the cities</strong>. Where is Moscow?</li>
+    <li><strong>The biggest city is red.</strong> What color is Jakarta?</li>
+    <li><strong>The biggest city is on the right-hand side.</strong> Where is Washington, DC?</li>
+    <li><strong>The biggest city has a radius of 300 pixels.</strong> How big is Moscow?</li>
+  </ul>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+<script type="text/javascript">
+  var cities = [
+    {
+      name: 'Washington, DC',
+      population: 0.7
+    },
+    {
+      name: 'Los Angeles',
+      population: 5
+    },
+    {
+      name: 'Jakarta',
+      population: 9.5
+    },
+    {
+      name: 'Delhi',
+      population: 19
+    },
+    {
+      name: 'Moscow',
+      population: 12
+    }
+  ]  
+
+  var height = 200, 
+      width = 1000;
+
+  var names = cities.map(function(d) { return d.name })
+  var populations = cities.map(function(d) { return +d.population })
+  var minPop = d3.min(populations)
+  var maxPop = d3.max(populations)
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<html>
+<head>
+<style>
+body {
+  background: #333333;
+  text-align: center;
+  font-family: "Arial Rounded MT Bold";
+  color: white;
+  padding-top: 100px;
+}
+
+h1 {
+  font-size: 64px;
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+circle {
+  fill: white;
+  stroke: white;
+}
+
+text {
+  fill: white;
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+<h1>Cities + Visual Variables</h1>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js"></script>
+<script type="text/javascript">
+var cities = [
+  {
+    name: 'Washington, DC',
+    population: .7
+  },
+  {
+    name: 'Los Angeles',
+    population: 5
+  },
+  {
+    name: 'Jakarta',
+    population: 9.5
+  },
+  {
+    name: 'Delhi',
+    population: 19
+  },
+  {
+    name: 'Moscow',
+    population: 12
+  }
+]  
+
+var height = 200,
+    width = 1000,
+    padding = 100;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("height", height + padding * 2)
+  .attr("width", width + padding * 2)
+  .append("g")
+  .attr("transform", "translate(100 100)")
+
+var names = cities.map(function(d) { return d.name })
+var populations = cities.map(function(d) { return +d.population }),
+    minPop = d3.min(populations),
+    maxPop = d3.max(populations);
+
+var xPositionScaleName = d3.scalePoint().domain(names).range([0, width])
+var colorScale = d3.scaleLinear().domain([minPop, maxPop]).range(['#ffffff','#e7298a'])
+var colorScaleName = d3.scaleOrdinal().domain(names).range(['#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854'])
+
+var defaultRadius = 20;
+var maxRadius = 100;
+var sizeScale = d3.scaleSqrt().domain([0, maxPop]).range([0, maxRadius])
+
+var xPositionScalePopulation = d3.scaleLinear().domain([0, maxPop]).range([0, width])
+
+var line = svg.append("line")
+  .attr("x1", 0)
+  .attr("x2", width)
+  .attr("y1", height / 2)
+  .attr("y2", height / 2)
+  .attr("stroke", "white")
+  .attr("opacity", 0)
+
+var groups = svg.selectAll("g")
+  .data(cities)
+  .enter().append("g")
+  .attr("transform", "translate(" + (width / 2) + " " + (height / 2) + ")")
+
+var text = groups.append("text")
+  .text(function(d) {
+    return d.name
+  })
+  .attr("text-anchor", "middle")
+  .attr("opacity", 0)
+  .attr("dy", defaultRadius + 20)
+
+var circles = groups.append("circle")
+  .attr("r", defaultRadius)
+
+var steps = [
+  step0,
+  step1,
+  step2,
+  step3,
+  step4,
+  step5,
+  step6
+]
+
+var currentStep = 0
+
+d3.select("body").on("keyup", function() {
+  console.log(d3.event.code)
+  if(d3.event.code === "Space" || d3.event.code === "ArrowRight") {
+    currentStep = (currentStep + 1) % 7
+    steps[currentStep].apply()
+  }
+  if(d3.event.code === "ArrowLeft") {
+    currentStep = currentStep < 1 ? 6 : currentStep - 1
+    steps[currentStep].apply()
+  }
+})
+
+function makeTranslate(x, y) {
+  return "translate(" + x + " " + y + ")"
+}
+
+function step0() {
+  line.transition().attr("opacity", 0)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", makeTranslate(width / 2, height / 2))
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", defaultRadius)
+    .style("fill-opacity", 1)
+    .style("fill", '#ffffff')
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 0)
+}
+
+function step1() {
+  line.transition().attr("opacity", 0)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      return makeTranslate(xPositionScaleName(d.name), height / 2)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", defaultRadius)
+    .style("fill-opacity", 1)
+    .style("fill", '#ffffff')
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("text-anchor", "middle")
+    .attr("opacity", 1)
+    .attr("dx", 0)
+    .attr("dy", defaultRadius + 20)
+}
+
+function step2() {
+  line.transition().attr("opacity", 0)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      return makeTranslate(xPositionScaleName(d.name), height / 2)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", defaultRadius * 3)
+    .style("fill", function(d) {
+      return colorScale(d.population)
+    })
+    .style("fill-opacity", 1)
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("dy", defaultRadius * 3 + 20)
+    .attr("dx", 0)
+    .attr("text-anchor", "middle")
+}
+
+function step3() {
+  line.transition().attr("opacity", 0)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      return makeTranslate(xPositionScaleName(d.name), height / 2)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", function(d) {
+      return sizeScale(d.population)
+    })
+    .style("fill-opacity", 1)
+    .style("fill", '#ffffff')
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("dy", function(d) {
+      return sizeScale(d.population) + 20
+    })
+    .attr("dx", 0)
+    .attr("text-anchor", "middle")
+}
+
+function step4() {
+  line.transition().attr("opacity", 0)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      var y = height - sizeScale(d.population) - maxRadius
+      return makeTranslate(width / 2, y)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", function(d) {
+      return sizeScale(d.population)
+    })
+    .style("fill-opacity", 0)
+    .style("fill", '#ffffff')
+    .style("stroke-width", 1)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("dy", 0)
+    .attr("text-anchor", "right")
+    .attr("dx", function(d) {
+      return sizeScale(d.population) + 5
+    })
+}
+
+function step5() {
+  line.transition().attr("opacity", 1)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      return makeTranslate(xPositionScalePopulation(d.population), height / 2)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", defaultRadius / 2)
+    .style("fill-opacity", 1)
+    .style("fill", '#ffffff')
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("dy", defaultRadius / 2 + 20)
+    .attr("text-anchor", "middle")
+    .attr("dx", 0)
+
+}
+
+function step6() {
+  line.transition().attr("opacity", 1)
+
+  groups.transition()
+    .duration(1000)
+    .attr("transform", function(d) {
+      return makeTranslate(xPositionScalePopulation(d.population), height / 2)
+    })
+
+  circles.transition()
+    .duration(1000)
+    .attr("r", defaultRadius / 2)
+    .style("fill-opacity", 1)
+    .style("fill", function(d) {
+      return colorScaleName(d.name)
+    })
+    .style("stroke-width", 0)
+
+  text.transition()
+    .duration(1000)
+    .attr("opacity", 1)
+    .attr("dy", defaultRadius / 2 + 20)
+    .attr("text-anchor", "middle")
+    .attr("dx", 0)
+
+}
+
+</script>
+</body>
+</html>
