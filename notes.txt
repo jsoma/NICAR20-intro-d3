@@ -1,0 +1,133 @@
+
+
+
+MAXIMUM VALUES OF SOMETHING
+
+
+    var maxPop = d3.max(cities, function(d) { return d.population })
+
+
+
+
+LIST OF NAMES (Plucking out one variable)
+
+
+    var names = cities.map(function(d) { return d.name })
+
+
+
+
+TOOLTIP
+
+
+    http://bl.ocks.org/Caged/6476579
+
+
+
+ADDING AXES
+
+
+    var yAxis = d3.axisLeft(yPositionScale);
+    svg.append("g")
+      .attr("class", "axis y-axis")
+      .call(yAxis)
+
+    var xAxis = d3.axisBottom(xPositionScale)
+    svg.append("g")
+      .attr("class", "axis x-axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+
+
+
+
+MARGIN CONVENTION - https://bl.ocks.org/mbostock/3019563
+
+
+    var margin = { top: 20, right: 10, bottom: 20, left: 10 }
+
+    var width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom
+
+    // You'll probably need to edit this one
+    var svg = d3.select("#graphic").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+INSTALL NPM
+
+
+OS X: run brew install node    
+Windows: Visit nodejs.org
+
+
+
+
+
+
+
+INITIALIZE PROJECT
+
+    npm init
+
+
+
+
+
+
+
+
+INSTALL ESLINT
+
+    npm install --save-dev eslint
+
+
+
+
+
+
+
+INITIALIZE ESLINT
+
+    ./node_modules/.bin/eslint --init
+
+
+
+
+
+
+
+INSTALL PRETTIER
+
+    npm install --save-dev prettier eslint-plugin-prettier eslint-config-prettier
+
+
+
+
+
+
+PRETTIER + STANDARD
+
+
+This is your .eslint file
+
+    {
+      "extends": ["standard", "prettier", "prettier/standard"],
+      "plugins": [
+        "prettier"
+      ],
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "singleQuote": true,
+            "semi": false,
+            "printWidth": 80
+          }
+        ]
+      }
+    }
+
+
